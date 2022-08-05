@@ -18,6 +18,7 @@ gem 'turbolinks'
 gem 'devise'
 gem 'hamlit-rails'
 gem 'bootstrap'
+gem 'iex-ruby-client'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
