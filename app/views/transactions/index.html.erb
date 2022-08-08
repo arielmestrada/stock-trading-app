@@ -1,0 +1,11 @@
+<div>
+    <% @transactions.each do |transaction| %>
+
+        <%= transaction.transaction_type.capitalize %><br/>
+        <%= transaction.name %><br/>
+        <%= transaction.ticker %><br/>
+        <%= transaction.quantity %><br/>
+        <%= transaction.price %>
+
+    <% end %>
+</div>

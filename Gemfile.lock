@@ -142,15 +142,6 @@ GEM
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
-    hamlit (2.16.0)
-      temple (>= 0.8.2)
-      thor
-      tilt
-    hamlit-rails (0.2.3)
-      actionpack (>= 4.0.1)
-      activesupport (>= 4.0.1)
-      hamlit (>= 1.2.0)
-      railties (>= 4.0.1)
     hashdiff (1.0.1)
     hashie (5.0.0)
     i18n (1.12.0)
@@ -324,7 +315,6 @@ GEM
     stimulus-rails (1.1.0)
       railties (>= 6.0.0)
     strscan (3.0.4)
-    temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.11)
     timeout (0.3.0)
@@ -374,7 +364,6 @@ DEPENDENCIES
   debug
   devise
   factory_bot_rails
-  hamlit-rails
   iex-ruby-client
   importmap-rails
   jbuilder

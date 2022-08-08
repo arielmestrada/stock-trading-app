@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @stock %>
+
+<div>
+  <%= link_to "Edit this stock", edit_listing_stock_path(@listing, @stock) %> |
+  <%= link_to "Back to stocks", listing_stocks_path(@listing) %>
+
+  <%= button_to "Destroy this stock", [@listing, @stock], method: :delete, data: { confirm: 'Are you sure?' } %>
+</div>
