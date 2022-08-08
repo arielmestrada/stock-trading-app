@@ -16,7 +16,6 @@ gem "bootsnap", require: false
 gem 'sass-rails'
 gem 'turbolinks'
 gem 'devise'
-gem 'hamlit-rails'
 gem 'bootstrap'
 gem 'iex-ruby-client'
 

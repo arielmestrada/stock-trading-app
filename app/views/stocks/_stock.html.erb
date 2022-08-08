@@ -1,0 +1,7 @@
+<div id="<%= dom_id stock %>">
+    <p><%= stock.listing.name %><p/>
+    <p><%= stock.listing.ticker %><p/>
+    <p><%= stock.listing.price %><p/>
+    <p>Quantity: <%= stock.quantity %></p>
+    <p>Owner: <%= User.find(stock.user_id).email %></p>
+</div>

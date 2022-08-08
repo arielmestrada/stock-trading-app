@@ -13,11 +13,11 @@
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-    <h1>Some Nav</h1>
-    <%= link_to 'Home', root_path %><br/>
+    <h1>Header</h1>
+    <%= link_to 'Home', root_path%><br/>
     <%= link_to 'Market Listings', listings_path %><br/>
-    <%= link_to 'Transaction History', transactions_path %><br/>
-    <%= link_to 'My Portfolio', stocks_path %>
+    <%= link_to 'My Portfolio', portfolio_path %><br/>
+    <%= link_to 'Transaction History', transactions_path %>
     <%= yield %>
   </body>
 </html>
