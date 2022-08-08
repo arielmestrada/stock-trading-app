@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<% @stocks.each do |stock| %>
+    <p>Company Name: <%= stock.company_name %></p>
+    <p>Symbol: <%= stock.symbol %></p>
+    <p>Price: <%= stock.price %></p>
+    <p>Quantity: <%= stock.quantity %></p>
+<% end %>

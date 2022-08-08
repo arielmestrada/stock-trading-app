@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<% @transactions.each do |transaction| %>
+    <p>Transaction Type: <%= transaction.kind %></p>
+    <p>Company Name: <%= Stock.find(transaction.stock_id).company_name %></p>
+    <p>Quantity: <%= transaction.quantity %></p>
+    <p>Price: <%= (transaction.price * transaction.quantity) %></p>
+<% end %>
