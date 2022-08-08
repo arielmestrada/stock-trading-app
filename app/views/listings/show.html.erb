@@ -1,5 +1,0 @@
-<h1><%= @listing.company_name %></h1>
-<h2><%= @listing.symbol %></h2>
-<p>Price: <%= @listing.price %></p>
-<p>Quantity: <%= @listing.quantity %></p>
-<%= link_to 'Buy Stock', new_stock_path(listing_id:@listing.id, type:'buy') %>

@@ -1,9 +1,0 @@
-<% @listings.each do |listing| %>
-    <ul>
-        <li>Company Name: <%= listing.company_name %></li>
-        <li>Symbol: <%= listing.symbol %></li>
-        <li>Price: <%= listing.price %></li>
-        <li>Quantity: <%= listing.quantity %></li>
-        <li><%= link_to 'Show', listing_path(listing.id) %></li>
-    </ul>
-<% end %>

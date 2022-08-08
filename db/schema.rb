@@ -10,45 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_07_231446) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_08_013143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "listings", force: :cascade do |t|
-    t.string "company_name"
-    t.string "symbol"
-    t.float "price"
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "stocks", force: :cascade do |t|
-    t.string "company_name"
-    t.string "symbol"
-    t.float "price"
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.bigint "listing_id"
-    t.index ["listing_id"], name: "index_stocks_on_listing_id"
-    t.index ["user_id"], name: "index_stocks_on_user_id"
-  end
-
-  create_table "transactions", force: :cascade do |t|
-    t.string "kind"
-    t.float "price"
-    t.integer "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status"
-    t.string "symbol"
-    t.bigint "user_id"
-    t.bigint "stock_id"
-    t.index ["stock_id"], name: "index_transactions_on_stock_id"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -71,8 +35,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_07_231446) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "stocks", "listings"
-  add_foreign_key "stocks", "users"
-  add_foreign_key "transactions", "stocks"
-  add_foreign_key "transactions", "users"
 end
