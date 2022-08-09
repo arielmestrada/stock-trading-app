@@ -1,1 +1,15 @@
 <h1>home page</h1>
+
+<% @users.each do |user| %>
+    <div>
+        <%= user.first_name %><br/>
+        <%= user.last_name %><br/>
+        <%= user.email %><br/>
+        <% if user.confirmed? %>
+            <%= 'approved' %>
+        <% else %>
+            <%= 'pending' %><br/>
+            <%= link_to 'Approve Account?', confirm_user_path(user.id) %>
+        <% end %>
+    </div><br/>
+<% end %>

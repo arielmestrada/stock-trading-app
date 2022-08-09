@@ -13,4 +13,5 @@ class Stock < ApplicationRecord
         @transaction.user_id = self.user_id
         @transaction.save!
     end
+        
 end

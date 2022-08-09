@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   root to: 'pages#index'  
 
   get '/portfolio' => 'pages#portfolio', as: 'portfolio'
+  get '/new' => 'pages#new', as: 'new_trader'
+  get '/confirm_user/:trader_id' => 'pages#confirm_user', as: 'confirm_user'
   get '/transactions' => 'transactions#index', as: 'transactions'
+
 
 end
