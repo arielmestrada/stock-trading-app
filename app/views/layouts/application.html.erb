@@ -11,17 +11,24 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <% if user_signed_in? %>      
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+    
+  <% if user_signed_in? %>      
       <h1>Header</h1>
       <%= link_to 'Home', root_path%><br/>
-      <%= link_to 'Edit Profile', edit_user_registration_path %><br/>
-      <%= link_to 'Create trader account', new_trader_path %><br/>
-      <%= button_to "Log out", destroy_user_session_path, :method => :delete %><br/>
       <%= link_to 'Market Listings', listings_path %><br/>
-      <%= link_to 'My Portfolio', portfolio_path %><br/>
-      <%= link_to 'Transaction History', transactions_path %>
+      
+      <% if can? :manage, User %>
+        <%= link_to 'Create trader account', new_trader_path %><br/>
+        <%= link_to 'Transactions', transactions_path %>
+      <% else %>
+        <%= link_to 'Edit Profile', edit_user_registration_path %><br/>
+        <%= link_to 'My Portfolio', portfolio_path %><br/>
+        <%= link_to 'Transaction History', transactions_path %>
+      <% end %>
+      
+      <%= button_to "Log out", destroy_user_session_path, :method => :delete %><br/>
     <% end %>
     <%= yield %>
   </body>

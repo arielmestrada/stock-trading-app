@@ -4,12 +4,17 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Define abilities for the user here. For example:
-    #
-    #   return unless user.present?
-    #   can :read, :all
-    #   return unless user.admin?
-    #   can :manage, :all
+    user ||= User.new
+    if user.role == 'admin'
+      can :manage, User
+      can :manage, Listing
+      can :manage, Transaction
+      can :read, Stock
+    else
+      can :manage, Stock, user_id: user.id
+      can :read, Listing
+    end
+
     #
     # The first argument to `can` is the action you are giving the user
     # permission to do.

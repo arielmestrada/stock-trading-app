@@ -11,4 +11,5 @@
   <% end %>
 </div>
 
-<%= link_to "New stock", new_listing_stock_path(@listing) %>
+<%= link_to "Buy", buy_stock_path(@listing.id) %><br/>
+<%= link_to "Sell", sell_stock_path(@listing.id) %>

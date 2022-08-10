@@ -1,9 +1,9 @@
 class PagesController < ApplicationController
     before_action :authenticate_user!
+    # load_and_authorize_resource
 
     def index
         @users = User.where(role:'trader')
-
         @listings = Listing.all
     end
 
@@ -14,9 +14,11 @@ class PagesController < ApplicationController
 
     def portfolio
         @stocks = Stock.where(user_id:current_user.id)
+        authorize! :manage, Stock
     end
     
     def new
+        authorize! :manage, User
     end
 
     def create
@@ -32,11 +34,13 @@ class PagesController < ApplicationController
     end
 
     def show
-        @user = User.find(params[:id])
+        @user = User.find(params[:id])   
+        authorize! :manage, User     
     end
 
     def edit
         @user = User.find(params[:id])
+        authorize! :manage, User        
     end
 
     def update
