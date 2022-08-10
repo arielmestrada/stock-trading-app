@@ -1,5 +1,7 @@
 <h1>home page</h1>
 
+<p>Stocks Stats goes here</p>
+
 <% @users.each do |user| %>
     <div>
         <%= user.first_name %><br/>
@@ -11,5 +13,6 @@
             <%= 'pending' %><br/>
             <%= link_to 'Approve Account?', confirm_user_path(user.id) %>
         <% end %>
-    </div><br/>
+        <%= link_to 'Show', user_path(user.id) %>
+    </div><br/>    
 <% end %>

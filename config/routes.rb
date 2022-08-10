@@ -13,8 +13,12 @@ Rails.application.routes.draw do
 
   get '/portfolio' => 'pages#portfolio', as: 'portfolio'
   get '/new' => 'pages#new', as: 'new_trader'
+  get '/:id' => 'pages#show', as: 'user'
+  patch '/:id' => 'pages#update'
+  get '/:id/edit' => 'pages#edit', as: 'user_edit'
+  post '/' => 'pages#create'
   get '/confirm_user/:trader_id' => 'pages#confirm_user', as: 'confirm_user'
-  get '/transactions' => 'transactions#index', as: 'transactions'
+  get 'user/transactions' => 'transactions#index', as: 'transactions'
 
 
 end
