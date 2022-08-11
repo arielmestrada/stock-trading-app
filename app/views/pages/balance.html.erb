@@ -1,0 +1,15 @@
+<h2>Add Balance</h2>
+<p>Current Balance: <%= @balance || 0 %></p>
+
+<%= form_with url: '/balance', method: :patch do |f| %>
+
+  <div class="field">
+    <%= f.label :balance %><br />
+    <%= f.number_field :balance, autofocus: true, min: 1, step: :any %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Add Balance" %>
+  </div>
+  
+<% end %>

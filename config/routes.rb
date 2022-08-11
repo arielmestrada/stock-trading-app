@@ -13,17 +13,19 @@ Rails.application.routes.draw do
 
   get   '/portfolio' => 'pages#portfolio', as: 'portfolio'
   get   '/new' => 'pages#new', as: 'new_trader'
-  get   '/:id' => 'pages#show', as: 'user'
-  patch '/:id' => 'pages#update'
-  get   '/:id/edit' => 'pages#edit', as: 'user_edit'
+  get   '/user/:id' => 'pages#show', as: 'user'
+  patch '/user/:id' => 'pages#update'
+  get   '/user/:id/edit' => 'pages#edit', as: 'user_edit'
   post  '/' => 'pages#create'  
   get   '/confirm_user/:trader_id' => 'pages#confirm_user', as: 'confirm_user'
+  get   '/balance' => 'pages#balance', as: 'balance'
+  patch '/balance' => 'pages#add_money'
 
   get   '/listings/:listing_id/buy', to: 'stocks#buy', as: 'buy_stock'
   get   '/listings/:listing_id/sell', to: 'stocks#sell', as: 'sell_stock'
 
-  get   '/user/transactions' => 'transactions#index', as: 'transactions'
-  get   '/user/transactions/:id' => 'transactions#show', as: 'transaction'
+  get   '/trader/transactions' => 'transactions#index', as: 'transactions'
+  get   '/trader/transactions/:id' => 'transactions#show', as: 'transaction'
 
 
 end

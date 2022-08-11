@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
     before_action :authenticate_user!
-    # load_and_authorize_resource
+    # load_and_authorize_resource    
 
     def index
         @users = User.where(role:'trader')
@@ -13,7 +13,7 @@ class PagesController < ApplicationController
     end
 
     def portfolio
-        @stocks = Stock.where(user_id:current_user.id)
+        @stocks = Stock.where(user_id: current_user.id)
         authorize! :manage, Stock
     end
     
@@ -47,6 +47,16 @@ class PagesController < ApplicationController
         @user = User.find(params[:id])
         @user.update(first_name: params[:first_name], last_name: params[:last_name], email: params[:email])
         redirect_to user_path(params[:id])
+    end
+
+    def balance
+        @balance = User.find(current_user.id).balance
+    end
+
+    def add_money
+        @balance = User.find(current_user.id).balance || 0
+        @balance_total = (@balance + params[:balance].to_f)
+        User.find(current_user.id).update(balance: @balance_total)
     end
 
 end

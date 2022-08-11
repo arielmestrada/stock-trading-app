@@ -12,7 +12,7 @@ class StocksController < ApplicationController
 
   def sell
     @stock = Stock.find_by(user_id: current_user.id, listing_id: @listing.id)
-  end
+  end 
 
   def index
     @stocks = @listing.stocks.where(user_id: current_user.id)
@@ -28,57 +28,88 @@ class StocksController < ApplicationController
   def edit
   end
 
-  def create  
-    # Stock.create(
-    #   listing_id: @listing.id,
-    #   user_id: current_user.id,
-    #   quantity: param[:quantity].to_i
-    # )
-    # binding.pry
-    @stock = @listing.stocks.build(stock_params)
-
-    respond_to do |format|
-      if @stock.save
-        format.html { redirect_to listing_stocks_path(@listing), notice: "Stock was successfully created." }
-        format.json { render :show, status: :created, location: @stock }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def update
-    @quantity = params[:quantity].to_i
+  def create
+    @current_balance = User.find(current_user.id).balance || 0
+    @quantity = params[:stock][:quantity].to_i
+    @total_price = @listing.price * @quantity
+    @new_balance = @current_balance - @total_price
+    @stock = Stock.new(
+      user_id: current_user.id,
+      listing_id: @listing.id,
+      quantity: @quantity
+    )
     @transaction = Transaction.new(
         name: @listing.name,
         ticker: @listing.ticker,
         quantity: @quantity,
-        price: (@listing.price * @quantity),
+        price: @total_price,
+        user_id: current_user.id,
+        transaction_type: 'Buy'
+    )
+
+    if @current_balance > @total_price
+      @stock.save!
+      User.find(current_user.id).update(balance: @new_balance)
+      @transaction.save!
+      redirect_to portfolio_path
+    else
+      redirect_to buy_stock_path(@listing.id, custom_error: 'Insufficient Balance')
+    end
+
+    # @stock = @listing.stocks.build(stock_params)
+
+    # respond_to do |format|
+    #   if @stock.save
+    #     format.html { redirect_to portfolio_path, notice: "Stock was successfully created." }
+    #     format.json { render :show, status: :created, location: @stock }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @stock.errors, status: :unprocessable_entity }
+    #   end
+    # end
+  end
+
+  def update
+    @current_quantity = User.find(current_user.id).stocks.find_by(listing_id: @listing.id).quantity
+    @current_balance = User.find(current_user.id).balance || 0
+    @quantity = params[:quantity].to_i
+    @total_price = @listing.price * @quantity
+    @new_balance = @current_balance - @total_price
+    @transaction = Transaction.new(
+        name: @listing.name,
+        ticker: @listing.ticker,
+        quantity: @quantity,
+        price: @total_price,
         user_id: current_user.id,
         transaction_type: nil
     )
-      
-    if params[:transaction_type] == 'buy'  
-      @total_quantity = (@stock.quantity + @quantity)    
-      @stock.update(quantity: @total_quantity)
-      @transaction.transaction_type = 'Buy'
-      @transaction.save!
-    elsif params[:transaction_type] == 'sell'
-      @total_quantity = (@stock.quantity - @quantity)
-      # if @total_quantity = 0
-      #   binding.pry
-      #   @stock.destroy
-      #   redirect_to portfolio_path
-      # else
+
+    if params[:transaction_type] == 'buy'
+      if @current_balance < @total_price
+        redirect_to buy_stock_path(@listing.id, custom_error: 'Insufficient Balance')
+      else
+        @total_quantity = (@stock.quantity + @quantity)    
         @stock.update(quantity: @total_quantity)
-        @transaction.transaction_type = 'Sell'
+        User.find(current_user.id).update(balance: @new_balance)
+        @transaction.transaction_type = 'Buy'
         @transaction.save!
-      # end
-      
+        redirect_to portfolio_path
+      end
+    else
+      if @current_quantity < @quantity
+        redirect_to sell_stock_path(@listing.id, custom_error: 'Insufficient quantity')
+      else
+        @new_balance = @current_balance + @total_price
+        @total_quantity = (@stock.quantity - @quantity)
+        @stock.update(quantity: @total_quantity)
+        User.find(current_user.id).update(balance: @new_balance)
+        @transaction.transaction_type = 'Sell'
+        @transaction.save!  
+        redirect_to portfolio_path
+      end
     end
 
-    redirect_to portfolio_path
+    
 
   end
 
