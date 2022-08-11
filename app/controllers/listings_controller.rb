@@ -1,9 +1,31 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :iex_client
 
   def index
-    @listings = Listing.all
+    if Listing.all.empty?
+      # gather and create info from iex
+      @listings_array = @client.stock_market_list(:mostactive)
+      @listings_array.each do |quote|
+        @new_listing = Listing.new(
+          name: quote['company_name'],
+          ticker: quote['symbol'],
+          price: quote['latest_price'],
+          iex_volume: quote['iex_volume'],
+          previous_close: quote['previous_close'],
+          change: quote['change'],
+          change_percent: quote['change_percent'],
+          market_cap: quote['market_cap'],
+          pe_ratio: quote['pe_ratio']
+        )
+        @new_listing.save
+      end
+      @listings = []
+      redirect_to listings_path
+    else
+      @listings = Listing.all
+    end
   end
 
   def show
@@ -58,6 +80,10 @@ class ListingsController < ApplicationController
   private
     def set_listing
       @listing = Listing.find(params[:id])
+    end
+
+    def iex_client
+      @client = IEX::Api::Client.new
     end
 
     def listing_params
