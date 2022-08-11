@@ -1,3 +1,4 @@
+<h1>Transaction page</h1>
 <div>
     <% @transactions.each do |transaction| %>
 
@@ -5,7 +6,7 @@
         <%= transaction.name %><br/>
         <%= transaction.ticker %><br/>
         <%= transaction.quantity %><br/>
-        <%= transaction.price %>
+        <%= transaction.price %><br/><br/>
 
     <% end %>
 </div>

@@ -2,22 +2,39 @@ class StocksController < ApplicationController
   before_action :authenticate_user!
   before_action :get_listing
   before_action :set_stock, only: %i[ show edit update destroy ]
+  load_and_authorize_resource
+
+  def buy  
+    @stock_build = @listing.stocks.build  
+    @stock = Stock.find_by(user_id: current_user.id, listing_id: @listing.id)
+    @existing = @stock != nil ? true : false   
+  end
+
+  def sell
+    @stock = Stock.find_by(user_id: current_user.id, listing_id: @listing.id)
+  end
 
   def index
-    @stocks = @listing.stocks
+    @stocks = @listing.stocks.where(user_id: current_user.id)
   end
 
   def show
   end
   
-  def new
+  def new        
     @stock = @listing.stocks.build
   end
 
   def edit
   end
 
-  def create
+  def create  
+    # Stock.create(
+    #   listing_id: @listing.id,
+    #   user_id: current_user.id,
+    #   quantity: param[:quantity].to_i
+    # )
+    # binding.pry
     @stock = @listing.stocks.build(stock_params)
 
     respond_to do |format|
@@ -32,15 +49,37 @@ class StocksController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @stock.update(stock_params)
-        format.html { redirect_to listing_stock_path(@listing), notice: "Stock was successfully updated." }
-        format.json { render :show, status: :ok, location: @stock }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
-      end
+    @quantity = params[:quantity].to_i
+    @transaction = Transaction.new(
+        name: @listing.name,
+        ticker: @listing.ticker,
+        quantity: @quantity,
+        price: (@listing.price * @quantity),
+        user_id: current_user.id,
+        transaction_type: nil
+    )
+      
+    if params[:transaction_type] == 'buy'  
+      @total_quantity = (@stock.quantity + @quantity)    
+      @stock.update(quantity: @total_quantity)
+      @transaction.transaction_type = 'Buy'
+      @transaction.save!
+    elsif params[:transaction_type] == 'sell'
+      @total_quantity = (@stock.quantity - @quantity)
+      # if @total_quantity = 0
+      #   binding.pry
+      #   @stock.destroy
+      #   redirect_to portfolio_path
+      # else
+        @stock.update(quantity: @total_quantity)
+        @transaction.transaction_type = 'Sell'
+        @transaction.save!
+      # end
+      
     end
+
+    redirect_to portfolio_path
+
   end
 
   def destroy
@@ -53,6 +92,7 @@ class StocksController < ApplicationController
   end
 
   private
+
     def get_listing
       @listing = Listing.find(params[:listing_id])
     end

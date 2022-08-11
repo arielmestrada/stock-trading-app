@@ -3,10 +3,17 @@
 <%= render @listing %>
 
 <div>
-  <%= link_to "Edit this listing", edit_listing_path(@listing) %> |
-  <%= link_to "Back to listings", listings_path %>
+<%= link_to "Back to listings", listings_path %><br/>
 
+<% if can? :manage, Listing %>  
+  <%= link_to "Edit this listing", edit_listing_path(@listing) %><br/>
   <%= button_to "Destroy this listing", @listing, method: :delete %>
+<% else %>
+  <%= link_to "Buy", buy_stock_path(@listing.id) %><br/>
+  <% if @existing%>
+    <%= link_to "Sell", sell_stock_path(@listing.id) %>
+  <% end %>
+<% end %>
 
-  <%= link_to "Buy", new_listing_stock_path(@listing) %>
+
 </div>

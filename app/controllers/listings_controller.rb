@@ -7,13 +7,17 @@ class ListingsController < ApplicationController
   end
 
   def show
+    @stock = Stock.find_by(user_id: current_user.id, listing_id: @listing.id)
+    @existing = @stock != nil ? true : false    
   end
 
   def new
     @listing = Listing.new
+    authorize! :manage, Listing
   end
 
   def edit
+    authorize! :manage, Listing
   end
 
   def create

@@ -11,7 +11,19 @@ Rails.application.routes.draw do
 
   root to: 'pages#index'  
 
-  get '/portfolio' => 'pages#portfolio', as: 'portfolio'
-  get '/transactions' => 'transactions#index', as: 'transactions'
+  get   '/portfolio' => 'pages#portfolio', as: 'portfolio'
+  get   '/new' => 'pages#new', as: 'new_trader'
+  get   '/:id' => 'pages#show', as: 'user'
+  patch '/:id' => 'pages#update'
+  get   '/:id/edit' => 'pages#edit', as: 'user_edit'
+  post  '/' => 'pages#create'  
+  get   '/confirm_user/:trader_id' => 'pages#confirm_user', as: 'confirm_user'
+
+  get   '/listings/:listing_id/buy', to: 'stocks#buy', as: 'buy_stock'
+  get   '/listings/:listing_id/sell', to: 'stocks#sell', as: 'sell_stock'
+
+  get   '/user/transactions' => 'transactions#index', as: 'transactions'
+  get   '/user/transactions/:id' => 'transactions#show', as: 'transaction'
+
 
 end

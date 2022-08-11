@@ -1,0 +1,5 @@
+<h1>show</h1>
+
+<%= @user.first_name %><br/>
+<%= link_to 'Edit', user_edit_path(params[:id]) %><br/>
+<%= link_to 'Transaction', transaction_path(params[:id]) %>

@@ -1,0 +1,24 @@
+<h1>Buy Stock</h1>
+
+<% if @existing %>
+
+    <%= form_with url: listing_stock_path(params[:listing_id], @stock.id), method: :patch do |f| %>
+
+        <div class="field">
+            <%= f.label :quantity %>
+            <%= f.number_field :quantity, min: 1 %>
+        </div>
+
+        <%= f.hidden_field :transaction_type, value: 'buy' %>
+
+        <div>
+            <%= f.submit %>
+        </div>
+        
+    <% end %>  
+
+<% else %>
+
+    <%= render "stocks/form", stock: @stock_build %>
+
+<% end %>
