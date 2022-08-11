@@ -1,0 +1,32 @@
+.logo-branding {
+    width: 100px;
+    height: auto;
+    transition: transform .40s;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(68, 69, 69, 0.25) !important;
+    border-color: rgba(68, 69, 69, 0.25) !important;
+}
+
+.listing-icon {
+    width:1.75em;
+    height:1.75em;
+    text-align: center;
+}
+.nav-item > .nav-link {
+    font-weight: 600;
+}
+
+footer > div {
+    height: 20px;
+}
+
+footer > div > p {
+    font-size: 12px;
+    text-align: center;
+}
+
+.logo-branding:hover {
+    transform: scale(1.1);
+}
