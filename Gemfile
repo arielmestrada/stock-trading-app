@@ -16,10 +16,11 @@ gem "bootsnap", require: false
 gem 'sass-rails'
 gem 'turbolinks'
 gem 'devise'
-gem 'bootstrap'
+gem 'bootstrap', '~> 5.2.0'
 gem 'iex-ruby-client'
 gem 'cancancan'
-
+gem 'jquery-rails'
+gem "font-awesome-sass"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
