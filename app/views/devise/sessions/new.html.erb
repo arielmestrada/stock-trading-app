@@ -1,5 +1,5 @@
 
-<%= form_for(resource, as: resource_name, url: user_session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: user_session_path) do |f| %>
   
 <%= stylesheet_link_tag "home", "data-turbo-track": "reload" %>
 
@@ -13,11 +13,8 @@
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form>
         
-          <% if notice != nil  %>
-            <p class="alert alert-warning"><%= notice %></p>
-            <p class="alert alert-danger"><%= alert %></p>
-          <% end %>
-          
+            <p class="text-warning text-center"><%= notice %></p>
+            <p class="text-danger text-center"><%= alert %></p>   
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
            
             <p class="lead fw-normal mb-0 me-3">Sign in with</p>
