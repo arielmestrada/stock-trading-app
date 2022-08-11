@@ -10,14 +10,9 @@ class User < ApplicationRecord
   has_many :transactions, dependent: :destroy
 
   before_save :skip_devise_email
-  before_save :add_admin_token
   after_create :send_confirm_to_admins, :if => proc {|obj| obj.admin_created == false}
   after_create :send_affirm_to_user, :if => proc {|obj| obj.admin_created == false }
   after_save :send_confirm_to_user, :if => proc {|obj| obj.saved_change_to_confirmed_at? && obj.admin_created == false}
-
-  def add_admin_token
-    self.admin_created = true
-  end
 
   def skip_devise_email
     self.skip_confirmation_notification!
