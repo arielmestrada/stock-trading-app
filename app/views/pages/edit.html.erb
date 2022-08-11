@@ -2,7 +2,7 @@
 
 <h2>Edit Trader Account</h2>
 
-<%= form_with url: '/' + params[:id], method: :patch do |f| %>
+<%= form_with url: '/user/' + params[:id], method: :patch do |f| %>
 
   <div class="field">
     <%= f.label :first_name %><br />
@@ -22,4 +22,5 @@
   <div class="actions">
     <%= f.submit "Create Trader" %>
   </div>
+
 <% end %>

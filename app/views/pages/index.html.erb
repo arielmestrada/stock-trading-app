@@ -1,7 +1,9 @@
 <h1>home page</h1>
 
-<% if can? :read, Stock %>
+<% if can? :manage, Stock %>
     <p>Stocks Stats goes here</p>
+    <p>Your current balance is : <%= current_user.balance || 0 %></p>
+    <%= link_to 'add balance', {:action => :balance}, :method => :get %>
 <% end %>
 
 <% if can? :read, User %>
