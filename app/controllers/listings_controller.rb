@@ -4,8 +4,7 @@ class ListingsController < ApplicationController
   before_action :iex_client
 
   def index
-    @today = Date.today.to_s
-    @last_update = Listing.first.updated_at.to_s[0..9]
+   
     if Listing.all.empty?
       # gather and create info from iex
       @listings_array = @client.stock_market_list(:mostactive)
@@ -25,6 +24,8 @@ class ListingsController < ApplicationController
       end
       @listings = []
       redirect_to listings_path
+      @today = Date.today.to_s
+      @last_update = Listing.first.updated_at.to_s[0..9]
     else
       if @today != @last_update
         binding.pry
