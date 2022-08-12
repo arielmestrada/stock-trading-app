@@ -63,6 +63,7 @@
           <div class="text-center text-lg-start mt-4 pt-2">
                   <%= f.submit "Log in", class:"btn btn-primary btn-lg", style:'padding-left: 2.5rem; padding-right: 2.5rem;' %>
             <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account?  <%= link_to 'Register', new_user_registration_path, class:'link-danger' %></p>
+                  <p class="small fw-bold mt-2 pt-1 mb-0">Didn't receive confirmation?  <%= link_to 'Resend Confirmation', user_confirmation_path, class:'link-danger' %></p>
                
           </div>
         </form>
