@@ -21,7 +21,7 @@ class PagesController < ApplicationController
         authorize! :manage, User
     end
 
-    def create
+    def create        
         @user = User.new
         @user.email = params[:email]
         @user.password = params[:password]
@@ -29,7 +29,9 @@ class PagesController < ApplicationController
         @user.first_name = params[:first_name]        
         @user.last_name = params[:last_name]   
         @user.admin_created = params[:admin_created]   
+        @user.skip_confirmation! if params[:admin_created]
         @user.save    
+        UserMailer.user_confirmation(@user).deliver_later if @user.save
         redirect_to root_path
     end
 
@@ -57,6 +59,7 @@ class PagesController < ApplicationController
         @balance = User.find(current_user.id).balance || 0
         @balance_total = (@balance + params[:balance].to_f)
         User.find(current_user.id).update(balance: @balance_total)
+        redirect_to root_path
     end
 
 end
