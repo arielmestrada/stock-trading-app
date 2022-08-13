@@ -3,7 +3,7 @@
  <body>
     
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><span>Hi </span><%= current_user.first_name %>!</a>
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><span>Hi </span><%= current_user.first_name.capitalize %>!</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -32,10 +32,11 @@
               Make a listing
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+          <li class="nav-item position-relative">
+            <a class="nav-link" href="#pendingUser">
               <span data-feather="users"></span>
-              Pending Users
+              <span>Pending Users</span>
+              <span class="position-absolute end-5px pending"><%= @users.count %></span>
             </a>
           </li>
           <li class="nav-item">
@@ -238,9 +239,32 @@
           </tbody>
         </table>
       </div>
+
+
+
+  <div id="pendingUser" class="my-5">
+    <h2>Pending Users</h2>
+    <div  class="d-flex gap-5 flex-wrap justify-content-center">
+        <% @users.each do |user|%>
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title"><%= user.email %></h5>
+              <p class="card-text"><%= "#{user.first_name} #{user.last_name} "%></p>
+              <a href="/confirm_user/<%=user.id%>" class="btn btn-primary">Approve</a>
+            </div>
+          </div>
+        <% end %>    
+      </div>
+    </div>
+
     </main>
   </div>
+  
 </div>
+
+
+
+
 
 
 
