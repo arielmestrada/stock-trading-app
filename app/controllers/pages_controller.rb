@@ -3,7 +3,8 @@ class PagesController < ApplicationController
     # load_and_authorize_resource    
 
     def index
-        @users = User.where(role:'trader')
+        @users_pending = User.where(role:'trader').reject{|user| user.confirmed?}
+        @users_approve = User.where(role:'trader').reject{|user| !user.confirmed?}
         @listings = Listing.all
     end
 

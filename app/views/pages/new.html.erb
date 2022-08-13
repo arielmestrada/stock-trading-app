@@ -1,4 +1,98 @@
-<h2>New Trader Account</h2>
+
+<%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
+
+ <body>
+    
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><span>Hi </span><%= current_user.first_name.capitalize %>!</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+       <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+
+      <% if current_user.role == 'trader'%>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">
+              <span data-feather="home"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <%= link_to portfolio_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Portfolio
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to listings_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Listings
+             <%end%>
+          </li>
+          <li class="nav-item">
+          <%= link_to balance_path, class: "nav-link" do%>
+            <span data-feather="dollar-sign"></span>
+              Balance 
+            <span data-feather="plus-circle"></span>
+            <span><%= number_to_currency current_user.balance %></span>
+            <%end%>
+          </li>
+        </ul>
+        <%end%>
+
+        <% if current_user.role == 'admin' %>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Admin</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+             <a class="nav-link" href="/#pendingUser">
+              <span data-feather="users"></span>
+              <span>Pending Users</span>
+              <span class="position-absolute end-5px pending"><%= get_pending_users %></span>
+            </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/new">
+              <span data-feather="users"></span>
+              Create a Trader
+            </a>
+          </li>
+          <li class="nav-item">
+            <%= link_to transactions_path, class: 'nav-link' do%>
+              <span data-feather="file-text"></span>
+              Transactions
+            <%end%>
+          </li>
+      
+        </ul>
+
+        <% end %>
+
+
+
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1>New Trader Account</h1>
+    
+      </div>
+
+
 
 <%= form_with url: '/', method: :post do |f| %>
 
@@ -33,3 +127,20 @@
     <%= f.submit "Create Trader" %>
   </div>
 <% end %>
+
+
+    </main>
+  </div>
+  
+</div>
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+
+      <%= javascript_include_tag "dashboard"  %>    
+
