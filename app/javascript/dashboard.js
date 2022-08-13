@@ -1,102 +1,76 @@
 /* globals Chart:false, feather:false */
 
-// (function () {
-//     'use strict'
+(function () {
+    'use strict'
   
-//     feather.replace({ 'aria-hidden': 'true' })
+    feather.replace({ 'aria-hidden': 'true' })
   
-//     // Graphs
-//     var ctx = document.getElementById('myChart')
-//     // eslint-disable-next-line no-unused-vars
-//     var myChart = new Chart(ctx, {
-//       type: 'line',
-//       data: {
-//         labels: [
-//           'Sunday',
-//           'Monday',
-//           'Tuesday',
-//           'Wednesday',
-//           'Thursday',
-//           'Friday',
-//           'Saturday'
-//         ],
-//         datasets: [{
-//           data: [
-//             15339,
-//             21345,
-//             18483,
-//             24003,
-//             23489,
-//             24092,
-//             12034
-//           ],
-//           lineTension: 0,
-//           backgroundColor: 'transparent',
-//           borderColor: '#007bff',
-//           borderWidth: 4,
-//           pointBackgroundColor: '#007bff'
-//         }]
-//       },
-//       options: {
-//         scales: {
-//           yAxes: [{
-//             ticks: {
-//               beginAtZero: false
-//             }
-//           }]
-//         },
-//         legend: {
-//           display: false
-//         }
-//       }
-//     })
-//   })()
+    // Graphs
+    var ctx = document.querySelectorAll('canvas').forEach(el => {
+    // eslint-disable-next-line no-unused-vars
+    var myChart = new Chart(el, {
+      type: 'line',
+      data: {
+        labels: [
+          'Sunday',
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday'
+        ],
+        datasets: [{
+          data: [
+            Math.random()*50000,
+            Math.random()*50000,
+            Math.random()*50000,
+            Math.random()*50000,
+            Math.random()*50000,
+            Math.random()*50000,
+            Math.random()*50000
+          ],
+          lineTension: 0,
+          backgroundColor: 'transparent',
+          borderColor: '#007bff',
+          borderWidth: 4,
+          pointBackgroundColor: '#007bff'
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: false
+            }
+          }]
+        },
+        legend: {
+          display: false
+        }
+      }
+    })
+  })
+  })()
   
-// const th = document.querySelectorAll('th')  
+const th = document.querySelectorAll('th')  
 
-// th.forEach(e => {
-//   e.addEventListener('click',el => {
-//     const table = el.target.parentElement.parentElement.parentElement
-//     const sortParent = el.target.parentElement
-//     const sortBy = el.target.textContent
+th.forEach(e => {
+  e.addEventListener('click',el => {
+    const table = el.target.parentElement.parentElement.parentElement
+    const sortParent = el.target.parentElement
+    const sortBy = el.target.textContent
 
-//     const th = sortParent.querySelectorAll('th')
+    const th = sortParent.querySelectorAll('th')
 
-//     th.forEach((ele,i) => {
-//       if(sortBy == ele.textContent) {
-//         sortTable(table,i)
-//       }
-//     })
+    th.forEach((ele,i) => {
+      if(sortBy == ele.textContent) {
+        sortTable(table,i)
+      }
+    })
+  })
+})
 
-
-
-//   })
-// })
-
-// function sortTable(table,sortBy) {
-// const tr =  table.querySelectorAll('tr')
-
-// const arr = []
-// const arrData = []
-  
-//   tr.forEach((e,i) => {
-//     if(i != 0) {
-//     arr.push(e)
-//    }
-//   })
-
-//   arr.forEach(data => {
-//     const tdArrData = []
-//     const td = data.querySelectorAll('td')
-//     td.forEach(t => {
-//       tdArrData.push(t.textContent)
-//     })
-//     arrData.push(tdArrData)
-//   })
-
-//   console.log(arrData)
-  
-// }
 
 document.querySelectorAll('th').forEach(e => {
 
@@ -157,7 +131,6 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
 
 
       function myFunction() {
-        console.log('test')
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();

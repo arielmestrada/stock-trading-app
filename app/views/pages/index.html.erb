@@ -20,7 +20,7 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
 
-      <% if current_user.role == 'trader '%>
+      <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">
@@ -37,8 +37,9 @@
           <li class="nav-item">
           <%= link_to balance_path, class: "nav-link" do%>
             <span data-feather="dollar-sign"></span>
-              Balance
+              Balance 
             <span data-feather="plus-circle"></span>
+            <span><%= number_to_currency current_user.balance %></span>
             <%end%>
           </li>
         </ul>
@@ -84,7 +85,37 @@
     
       </div>
 
-     <!--  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+<%if current_user.role == 'trader'%>
+<div class='my-5'>
+<h2>Hot Picks</h2>
+<div class="row">
+
+<% get_top_listings.each do |listing|%>
+  <div class="col mt-3">
+    <div class="card">
+      <div class="card-body">
+        <img src='<%= listing.logo %>' width='50px' class='mb-2'>
+        <h2 class="card-title"><%= listing.name %></h2>
+        <p class="card-text m-0">Value: <span><%= '$'+ number_to_human(listing.market_cap) %></span></p>
+        <p class="card-text m-0">Previous Close: <span><%= number_to_currency(listing.previous_close) %></span></p>
+        <p class="card-text ">Price: <span><%= '$'+ number_to_human(listing.price) %></span></p>
+
+        <%= link_to listing_path(listing.id), class:"btn btn-primary" do %>
+          Buy
+          <% end %>
+      </div>
+      <canvas class="my-4 w-100 mychart" id="myChart" ></canvas> 
+    </div>
+  </div>
+<% end %>
+
+</div>
+</div>
+<% end %>
+
+
+     <% if current_user.role == 'admin'%>
 
       <div class="my-5">
       <h2>All Traders</h2>
@@ -106,7 +137,7 @@
 
               <td><%= link_to "#{user.last_name.capitalize}, #{user.first_name.capitalize}", user_path(user.id) %> </td>
          
-              <td><%= number_to_currency user.balance %></td>
+              <td><%=  number_to_currency user.balance %></td>
               <td><%= user.stocks.count %></td>
               <td><%= get_total_stock_value(user.id) %></td>
               <td><%= get_user_last_trade(user.id) %></td>
@@ -119,7 +150,7 @@
           <% end %>
 
         </table>
-        </div>
+        </div> <% end %>
 
       <div class="my-5">
       <h2>Recent Transactions</h2>
@@ -146,7 +177,7 @@
               <td><%= trans.transaction_type %></td>
               <td><%= trans.created_at%></td>
               <td><%= trans.quantity %></td>
-              <td><%= number_to_currency(trans.price) %></td>
+              <td>$ <%= trans.price %></td>
             </tr>
           <% end %>
            <% else %>
