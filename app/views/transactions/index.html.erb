@@ -81,9 +81,44 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1>Transaction page</h1>
+        <h1>All Transactions</h1>
     
       </div>
+
+
+
+      <div class="table-responsive ">
+        <table class="table table-striped table-sm ">
+ 
+            <tr>
+              <th scope="col">Ref</th>
+              <th scope="col">Trader</th>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Date</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Amount</th>
+            </tr>
+   
+<% if get_recent_trans(current_user.role)!= nil %>
+          <% get_recent_trans(current_user.role).each do |trans| %>
+   
+            <tr>
+              <td><%= trans.id %></td>
+              <td><%=  trans.user.last_name.capitalize + ", " +trans.user.first_name.capitalize  %></td>
+              <td><%= trans.name %></td>
+              <td><%= trans.transaction_type %></td>
+              <td><%= trans.created_at%></td>
+              <td><%= trans.quantity %></td>
+              <td>$ <%= trans.price %></td>
+            </tr>
+          <% end %>
+           <% else %>
+           <h2>No transactions <h2>
+             <% end %>
+
+        </table>
+
 
 
 <div>
