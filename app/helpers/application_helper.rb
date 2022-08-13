@@ -18,10 +18,6 @@ module ApplicationHelper
         end
     end
 
-
-
-
-
     def get_total_stock_value(id)
         number_to_currency User.find(id).stocks.map{|stock| stock.quantity * stock.listing.price}.sum
     end
@@ -33,6 +29,11 @@ module ApplicationHelper
         else 
             'N/A'
         end
+    end
+
+
+    def get_pending_users 
+        User.all.where(role:"trader").map{|user| user.confirmed? }.count(false)
     end
 
 
