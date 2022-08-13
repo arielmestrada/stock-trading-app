@@ -51,6 +51,7 @@ class ListingsController < ApplicationController
 
   def show
     @stock = Stock.find_by(user_id: current_user.id, listing_id: params[:id])
+    @listing = Listing.find(params[:id])
     @existing = @stock != nil ? true : false  
   end
 
