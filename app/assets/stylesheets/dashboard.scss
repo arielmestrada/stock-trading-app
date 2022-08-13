@@ -110,5 +110,20 @@ body {
     color:#fff;
     
   }
+
+  tr {
+
+    padding: 5px;
+
+  }
   
-  
+th {
+    cursor: pointer;
+    position: relative;
+}
+
+#sortIcon {
+  position: absolute;
+  margin-left: 5px;
+  margin-top:3px;
+}

@@ -7,7 +7,7 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
@@ -19,6 +19,8 @@
   <div class="row">
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
+
+      <% if current_user.role == 'trader '%>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">
@@ -27,127 +29,140 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/listings">
+            <%= link_to portfolio_path, class: "nav-link" do%>
               <span data-feather="file"></span>
-              Make a listing
-            </a>
+              Portfolio
+             <%end%>
           </li>
-          <li class="nav-item position-relative">
-            <a class="nav-link" href="#pendingUser">
+          <li class="nav-item">
+          <%= link_to balance_path, class: "nav-link" do%>
+            <span data-feather="dollar-sign"></span>
+              Balance
+            <span data-feather="plus-circle"></span>
+            <%end%>
+          </li>
+        </ul>
+        <%end%>
+
+        <% if current_user.role == 'admin' %>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Admin</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+             <a class="nav-link" href="#pendingUser">
               <span data-feather="users"></span>
               <span>Pending Users</span>
-              <span class="position-absolute end-5px pending"><%= @users.count %></span>
+              <span class="position-absolute end-5px pending"><%= @users_pending.count %></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/new">
+              <a class="nav-link" href="/new">
               <span data-feather="users"></span>
               Create a Trader
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="bar-chart-2"></span>
-              Reports
-            </a>
+            <%= link_to transactions_path, class: 'nav-link' do%>
+              <span data-feather="file-text"></span>
+              Transactions
+            <%end%>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="layers"></span>
-              Integrations
-            </a>
-          </li>
+      
         </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="link-secondary" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
-            </a>
-          </li>
-        </ul>
+        <% end %>
+
+
+
       </div>
     </nav>
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard <%= "/ #{current_user.role.capitalize}"%></h1>
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-          </div>
-          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <span data-feather="calendar"></span>
-            This week
-          </button>
-        </div>
+    
       </div>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+     <!--  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
-      <h2>Recent Transactions</h2>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
+      <div class="my-5">
+      <h2>All Traders</h2>
+      <div class="table-responsive ">
+        <table id='myTable' class="table table-striped table-sm ">
+         
             <tr>
-              <th scope="col">Ref</th>
-              <th scope="col">User</th>
-              <th scope="col">Stock Name</th>
-              <th scope="col">Type</th>
-              <th scope="col">Date</th>
-              <th scope="col">Amount</th>
+              <th scope="col">Name </i></th>
+              <th scope="col">Wallet</th>
+              <th scope="col">Total Stocks</th>
+              <th scope="col">Total Stock Value</th>
+              <th scope="col">Last Trade</th>
             </tr>
-          </thead>
+     
+          <% if @users_approve != nil %>
+          <% @users_approve.each do |user| %>
 
-          <% get_all_trans(current_user.role).each do |trans| %>
-          <tbody>
             <tr>
-              <td><%= trans.id %></td>
-              <td><%= trans.user.first_name %></td>
-              <td><%= trans.name %></td>
-              <td><%= trans.transaction_type %></td>
-              <td><%= trans.created_at%></td>
-              <td><%= number_to_currency(trans.price) %></td>
+
+              <td><%= link_to "#{user.last_name.capitalize}, #{user.first_name.capitalize}", user_path(user.id) %> </td>
+         
+              <td><%= number_to_currency user.balance %></td>
+              <td><%= user.stocks.count %></td>
+              <td><%= get_total_stock_value(user.id) %></td>
+              <td><%= get_user_last_trade(user.id) %></td>
             </tr>
-          </tbody>
+    
+          <% end %>
+          <%else %>
+
+            <h2>No Traders found<h2>
           <% end %>
 
         </table>
-        
+        </div>
+
+      <div class="my-5">
+      <h2>Recent Transactions</h2>
+      <div class="table-responsive ">
+        <table class="table table-striped table-sm ">
+ 
+            <tr>
+              <th scope="col">Ref</th>
+              <th scope="col">Trader</th>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Date</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Amount</th>
+            </tr>
+   
+<% if get_recent_trans(current_user.role)!= nil %>
+          <% get_recent_trans(current_user.role).each do |trans| %>
+   
+            <tr>
+              <td><%= trans.id %></td>
+              <td><%=  trans.user.last_name.capitalize + ", " +trans.user.first_name.capitalize  %></td>
+              <td><%= trans.name %></td>
+              <td><%= trans.transaction_type %></td>
+              <td><%= trans.created_at%></td>
+              <td><%= trans.quantity %></td>
+              <td><%= number_to_currency(trans.price) %></td>
+            </tr>
+          <% end %>
+           <% else %>
+           <h2>No transactions <h2>
+             <% end %>
+
+        </table>
+        </div>
       </div>
 
 
-
+<% if current_user.role == 'admin' %>
   <div id="pendingUser" class="my-5">
     <h2>Pending Users</h2>
     <div  class="d-flex gap-5 flex-wrap justify-content-center">
-        <% @users.each do |user|%>
+        <% @users_pending.each do |user|%>
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title"><%= user.email %></h5>
@@ -158,6 +173,7 @@
         <% end %>    
       </div>
     </div>
+    <% end %>
 
     </main>
   </div>
