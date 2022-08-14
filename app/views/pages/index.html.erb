@@ -120,7 +120,7 @@
         <p class="card-text m-0">Previous Close: <span><%= number_to_currency(listing.previous_close) %></span></p>
         <p class="card-text ">Price: <span><%= '$'+ number_to_human(listing.price) %></span></p>
 
-        <%= link_to listing_path(listing.id), class:"btn btn-primary" do %>
+        <%= link_to buy_stock_path(listing.id), class:"btn btn-primary" do %>
           Buy
           <% end %>
       </div>

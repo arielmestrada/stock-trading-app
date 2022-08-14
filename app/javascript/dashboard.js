@@ -153,7 +153,9 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
           }       
         }
 
+     }
 
 
 
-      }
+
+     document.getElementById('buyCommit')

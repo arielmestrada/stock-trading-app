@@ -118,8 +118,8 @@
               <th scope="col">Amount</th>
             </tr>
    
-<% if get_recent_trans(current_user.role)!= nil %>
-          <% get_recent_trans(current_user.role).each do |trans| %>
+<% if get_all_trans(current_user.role)!= nil %>
+          <% get_all_trans(current_user.role).each do |trans| %>
    
             <tr>
               <td><%= trans.id %></td>
