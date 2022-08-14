@@ -28,10 +28,10 @@
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <% link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -92,17 +92,18 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-<h1>Current Balance: <%= @balance || 0 %></h1>
+<h1>Current Balance: <%= number_to_currency @balance || 0 %></h1>
           </div>
 <%= form_with url: '/balance', method: :patch do |f| %>
 
-  <div class="field">
+  <div class="field row">
+  <div class='col-lg-4'>
     <%= f.label :balance %><br />
-    <%= f.number_field :balance, autofocus: true, min: 1, step: :any %>
+    <%= f.number_field :balance, autofocus: true, min: 1, step: :any, class:'form-control mt-2' %>
+  <div>
   </div>
-
   <div class="actions">
-    <%= f.submit "Add Balance" %>
+    <%= f.submit "Load Balance",class:'btn btn-primary mt-4' %>
   </div>
   
 <% end %>

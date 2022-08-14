@@ -95,7 +95,7 @@ document.querySelectorAll('th').forEach(e => {
 })
 
 
-const cellVal = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+const cellVal = (tr, idx) => tr.children[idx].innerText.replace('$','') || tr.children[idx].textContent.replace('$','') ;
 
 const matchCompare = (idx, asc) => (a, b) => ((v1, v2) => 
     v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)

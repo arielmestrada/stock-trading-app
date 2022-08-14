@@ -103,7 +103,7 @@
       <div class="card-body">
         <img src='<%= listing.logo %>' width='50px' class='mb-2'>
         <h2 class="card-title"><%= listing.name %></h2>
-        <p class="card-text m-0">Value: <span><%= '$'+ number_to_human(listing.market_cap) %></span></p>
+        <p class="card-text m-0">Value: <span class='bg-success text-white px-2 py-1'><%= '$'+ number_to_human(listing.market_cap) %></span></p>
         <p class="card-text m-0">Previous Close: <span><%= number_to_currency(listing.previous_close) %></span></p>
         <p class="card-text ">Price: <span><%= '$'+ number_to_human(listing.price) %></span></p>
 
@@ -183,7 +183,7 @@
               <td><%= trans.transaction_type %></td>
               <td><%= trans.created_at%></td>
               <td><%= trans.quantity %></td>
-              <td>$ <%= trans.price %></td>
+              <td>  <%= number_to_currency trans.price %></td>
             </tr>
           <% end %>
            <% else %>

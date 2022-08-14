@@ -111,12 +111,12 @@
           <%  @listings.each do |listing| %>
    
             <tr>
-              <td><%= 's' %></td>
+              <td><img src='<%= listing.logo %>' width='50px'></td>
               <td><%=  listing.name %></td>
-              <td><%= listing.price %></td>
-              <td><%= listing.previous_close %></td>
-              <td><%= listing.market_cap%></td>
-              <td><%= listing.pe_ratio %></td>
+              <td><%= number_to_currency listing.price %></td>
+              <td><%= number_to_currency listing.previous_close %></td>
+              <td><%= number_to_human listing.market_cap%></td>
+              <td><%= number_to_percentage listing.pe_ratio, precision:2 %></td>
             </tr>
           <% end %>
 
