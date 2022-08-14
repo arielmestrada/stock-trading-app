@@ -1,18 +1,199 @@
-<h1>Sell Stock</h1>
 
+
+
+
+<%= stylesheet_link_tag "dashboard", "data-turbo-track": "reload" %>
+
+ <body>
+
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"><span>Hi </span><%= current_user.first_name.capitalize %>!</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search by Stock Name" aria-label="Search">
+
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+       <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+
+      <% if current_user.role == 'trader'%>
+        <ul class="nav flex-column">
+        <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
+              <span data-feather="home"></span>
+              Dashboard
+            <% end %>
+          </li>
+          <li class="nav-item">
+            <%= link_to portfolio_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Portfolio
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to listings_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Listings
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to transactions_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Transaction History
+             <%end%>
+          </li>
+          <li class="nav-item">
+          <%= link_to balance_path, class: "nav-link" do%>
+            <span data-feather="dollar-sign"></span>
+              Balance 
+            <span data-feather="plus-circle"></span>
+            <span><%= number_to_currency current_user.balance %></span>
+            <%end%>
+          </li>
+        </ul>
+        <%end%>
+
+        <% if current_user.role == 'admin' %>
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Admin</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+             <a class="nav-link" href="/#pendingUser">
+              <span data-feather="users"></span>
+              <span>Pending Users</span>
+              <span class="position-absolute end-5px pending"><%= get_pending_users %></span>
+            </a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/new">
+              <span data-feather="users"></span>
+              Create a Trader
+            </a>
+          </li>
+          <li class="nav-item">
+            <%= link_to transactions_path, class: 'nav-link' do%>
+              <span data-feather="file-text"></span>
+              Transactions
+            <%end%>
+          </li>
+        </ul>
+        <% end %>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<h1><%= @listing.name%></h1>
+    
+      </div>
+
+
+<section class="h-100 gradient-custom">
+  <div class="container py-5">
+    <div class="row d-flex justify-content-center my-4">
+      <div class="col-md-8">
+        <div class="card mb-4">
+          <div class="card-header py-3">
+            <h5 class="mb-0">You are <span class='btn btn-danger'> Selling </span></h5>
+          </div>
+          <div class="card-body">
+            <!-- Single item -->
+            <div class="row">
+              <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                <!-- Image -->
+                <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                  <img src="<%= @listing.logo %>"
+                    class="w-100" alt="Blue Jeans Jacket" />
+                  <a href="#!">
+                    <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                  </a>
+                </div>
+                <!-- Image -->
+              </div>
+
+              <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                <!-- Data -->
+                <p><strong><%= @listing.ticker%></strong></p>
+                <p>Earning Ratio: <span class='bg-success text-white px-2 py-1 rounded fw-bold'><%= @listing.pe_ratio %></span></p>
+                <p>Price: <span id='staticPrice'><%= number_to_currency @listing.price%></span></p>
+                <p>Previous Price: <%= number_to_currency @listing.previous_close%></p>
+          
+               
+                <!-- Data -->
+              </div>
+
+              <div class="col-lg-4 col-md-6 mb-4 mb-lg-0 d-flex flex-column justify-content-center">
+                <!-- Quantity -->
+
+
+                <div class="d-flex mb-4" style="max-width: 300px">
+                  <button class="btn btn-primary px-3 me-2 qty-btn"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                    <i class="fas fa-minus"></i>
+                  </button>
+
+
+                  <div class="form-outline">
+
+                    <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control"/>
+
+                  </div>
+
+                  <button class="btn btn-primary px-3 ms-2 qty-btn"
+                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <!-- Quantity -->
+
+                <!-- Price -->
+                <p class="text-start text-md-center">
+                  <strong id='front-price'><%= number_to_currency @listing.price %></strong>
+                </p>
+                <button class='btn btn-danger' id='fakeCommit'>Sell</button>
+
+                <!-- Price -->
+              </div>
+            </div>
+            <!-- Single item -->
+
+            <hr class="my-4" />
+            <span class='bg-warning px-2 rounded fw-bold text-white'>Owned <%= current_user.stocks.where(listing_id:@listing.id).first.quantity %></span>
+        </div>
+        
 <%= form_with url: listing_stock_path(params[:listing_id], @stock.id), method: :patch do |f| %>
 
+<div class='d-none'>
     <div class="field">
         <%= f.label :quantity %>
         <%= f.number_field :quantity, min: 1, max: @stock.quantity.to_s %>
     </div>
 
     <%= f.hidden_field :transaction_type, value: 'sell' %>
-
+    <span id='maxSellQty'><%= @stock.quantity.to_s %></span>
     <div>
-        <%= f.submit %>
+        <%= f.submit  id: 'sell' %>
     </div>
-    
+
 <% end %>  
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+      <%= javascript_include_tag "sell"  %>    
 
 
