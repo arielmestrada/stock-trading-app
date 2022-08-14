@@ -7,8 +7,13 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <% if current_user.role == 'admin'%>
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search All Traders by Name" aria-label="Search">
+  <%else%>
+   <div id='myInput'class="bg-dark w-100" type="text" placeholder="" ></div>
+    <%end%>
   <div class="navbar-nav">
+
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
     </div>
@@ -22,11 +27,11 @@
 
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+       <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -41,6 +46,12 @@
              <%end%>
           </li>
           <li class="nav-item">
+           <li class="nav-item">
+            <%= link_to transactions_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Transaction History
+             <%end%>
+          </li>
           <%= link_to balance_path, class: "nav-link" do%>
             <span data-feather="dollar-sign"></span>
               Balance 
@@ -53,7 +64,9 @@
 
         <% if current_user.role == 'admin' %>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <%= link_to root_path do %>
           <span>Admin</span>
+          <% end %>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
@@ -103,11 +116,11 @@
       <div class="card-body">
         <img src='<%= listing.logo %>' width='50px' class='mb-2'>
         <h2 class="card-title"><%= listing.name %></h2>
-        <p class="card-text m-0">Value: <span><%= '$'+ number_to_human(listing.market_cap) %></span></p>
+        <p class="card-text m-0">Value: <span class='bg-success text-white px-2 py-1 rounded fw-bold'><%= '$'+ number_to_human(listing.market_cap) %></span></p>
         <p class="card-text m-0">Previous Close: <span><%= number_to_currency(listing.previous_close) %></span></p>
         <p class="card-text ">Price: <span><%= '$'+ number_to_human(listing.price) %></span></p>
 
-        <%= link_to listing_path(listing.id), class:"btn btn-primary" do %>
+        <%= link_to buy_stock_path(listing.id), class:"btn btn-primary" do %>
           Buy
           <% end %>
       </div>
@@ -183,7 +196,7 @@
               <td><%= trans.transaction_type %></td>
               <td><%= trans.created_at%></td>
               <td><%= trans.quantity %></td>
-              <td>$ <%= trans.price %></td>
+              <td>  <%= number_to_currency trans.price %></td>
             </tr>
           <% end %>
            <% else %>

@@ -41,8 +41,15 @@ module ApplicationHelper
         Listing.all.sort{ |a,b| b.market_cap <=> a.market_cap }[0..2]
     end
 
+    def email_encrypt(e)
+    e.split('@')[0].split('').each_with_index.map{|val,i| [0,1,2].include?(i) ? val : '*'}.join + e.split('@')[1]
+    end
 
 
-
+    def last_trade_stock(ticker)
+        z = current_user.transactions.where(ticker:ticker).sort{ |a,b| b.created_at <=> a.created_at }.first.updated_at
+        z.strftime("%m/%d/%Y")
+ 
+    end
 
 end

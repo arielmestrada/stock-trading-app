@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   get   '/trader/transactions' => 'transactions#index', as: 'transactions'
   get   '/trader/transactions/:id' => 'transactions#show', as: 'transaction'
-
+  
+  match 'users/:id' => 'users#destroy', :via => :delete, :as => :admin_destroy_user
 
 end

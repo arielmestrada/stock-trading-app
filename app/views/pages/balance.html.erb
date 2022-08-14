@@ -12,7 +12,6 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
@@ -28,10 +27,10 @@
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -43,6 +42,12 @@
             <%= link_to listings_path, class: "nav-link" do%>
               <span data-feather="file"></span>
               Listings
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to transactions_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Transaction History
              <%end%>
           </li>
           <li class="nav-item">
@@ -92,17 +97,18 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-<h1>Current Balance: <%= @balance || 0 %></h1>
+<h1>Current Balance: <%= number_to_currency @balance || 0 %></h1>
           </div>
 <%= form_with url: '/balance', method: :patch do |f| %>
 
-  <div class="field">
+  <div class="field row">
+  <div class='col-lg-4'>
     <%= f.label :balance %><br />
-    <%= f.number_field :balance, autofocus: true, min: 1, step: :any %>
+    <%= f.number_field :balance, autofocus: true, min: 1, step: :any, class:'form-control mt-2' %>
+  <div>
   </div>
-
   <div class="actions">
-    <%= f.submit "Add Balance" %>
+    <%= f.submit "Load Balance",class:'btn btn-primary mt-4' %>
   </div>
   
 <% end %>

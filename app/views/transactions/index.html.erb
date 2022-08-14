@@ -7,7 +7,11 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <% if current_user.role == 'admin'%>
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search All Traders by Name" aria-label="Search">
+  <%else%>
+   <div id='myInput'class="bg-dark w-100" type="text" placeholder="" ></div>
+    <%end%>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
@@ -34,6 +38,18 @@
               Portfolio
              <%end%>
           </li>
+           <li class="nav-item">
+            <%= link_to listings_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Listings
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to transactions_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Transaction History
+             <%end%>
+          </li>
           <li class="nav-item">
           <%= link_to balance_path, class: "nav-link" do%>
             <span data-feather="dollar-sign"></span>
@@ -47,7 +63,9 @@
 
         <% if current_user.role == 'admin' %>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <%= link_to root_path do %>
           <span>Admin</span>
+          <% end %>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
@@ -81,24 +99,44 @@
 
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1>Transaction page</h1>
+        <h1>All Transactions</h1>
     
       </div>
 
 
-<div>
-    <% @transactions.each do |transaction| %>
 
-        <%= transaction.transaction_type.capitalize %><br/>
-        <%= transaction.name %><br/>
-        <%= transaction.ticker %><br/>
-        <%= transaction.quantity %><br/>
-        <%= transaction.price %><br/><br/>
+      <div class="table-responsive ">
+        <table class="table table-striped table-sm " id='myTable'>
+ 
+            <tr>
+              <th scope="col">Ref</th>
+              <th scope="col">Trader</th>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Date</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Amount</th>
+            </tr>
+   
+<% if get_all_trans(current_user.role)!= nil %>
+          <% get_all_trans(current_user.role).each do |trans| %>
+   
+            <tr>
+              <td><%= trans.id %></td>
+              <td><%=  trans.user.last_name.capitalize + ", " +trans.user.first_name.capitalize  %></td>
+              <td><%= trans.name %></td>
+              <td><%= trans.transaction_type %></td>
+              <td><%= trans.created_at%></td>
+              <td><%= trans.quantity %></td>
+              <td><%= number_to_currency trans.price %></td>
+            </tr>
+          <% end %>
+           <% else %>
+           <h2>No transactions <h2>
+          <% end %>
 
-    <% end %>
-</div>
-
-    </main>
+        </table>
+   </main>
   </div>
   
 </div>

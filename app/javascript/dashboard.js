@@ -52,25 +52,6 @@
     })
   })
   })()
-  
-const th = document.querySelectorAll('th')  
-
-th.forEach(e => {
-  e.addEventListener('click',el => {
-    const table = el.target.parentElement.parentElement.parentElement
-    const sortParent = el.target.parentElement
-    const sortBy = el.target.textContent
-
-    const th = sortParent.querySelectorAll('th')
-
-    th.forEach((ele,i) => {
-      if(sortBy == ele.textContent) {
-        sortTable(table,i)
-      }
-    })
-  })
-})
-
 
 document.querySelectorAll('th').forEach(e => {
 
@@ -95,11 +76,17 @@ document.querySelectorAll('th').forEach(e => {
 })
 
 
-const cellVal = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+try {
 
-const matchCompare = (idx, asc) => (a, b) => ((v1, v2) => 
+function cellVal(tr,idx) {
+  return tr.children[idx].innerText.replace('$','') || tr.children[idx].textContent.replace('$','')
+}
+
+  const matchCompare = (idx, asc) => (a, b) => ((v1, v2) => 
     v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
     )(cellVal(asc ? a : b, idx), cellVal(asc ? b : a, idx));
+
+ 
 
 // do the work...
 document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
@@ -129,15 +116,33 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
 
       );
 
+    } catch (error) {
+      
+    }
+
+
 
       function myFunction() {
+        const url = window.location.href
+        let index = 0;
+
+        switch (true) {
+          case url.includes('trader/transactions') ||  url.includes('/listings'):
+            index = 1;
+            break;
+        
+          default:
+            break;
+        }
+
+
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
         table = document.getElementById("myTable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[0];
+          td = tr[i].getElementsByTagName("td")[index];
           if (td) {
             txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -147,4 +152,10 @@ document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() =
             }
           }       
         }
-      }
+
+     }
+
+
+
+
+     document.getElementById('buyCommit')

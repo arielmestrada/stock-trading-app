@@ -31,20 +31,21 @@ class ListingsController < ApplicationController
       end
       redirect_to listings_path
     else
-      @today = Date.today.to_s
-      @last_update = Listing.first.updated_at.to_s[0..9]
-      if @today != @last_update        
+
+      @last_update = Listing.first.updated_at
+      @client_last_update = @client.quote(Listing.first.ticker).latest_time
+      if @client_last_update >= @last_update       
         @listings = Listing.all
         @listings.each do |listing|
           @new_price = @client.quote(listing.ticker).latest_price
-          unless @new_price.empty?          
-            @listing = Listing.find(listing.id)
-            @listing.update(price: @new_price)
+          if @new_price != listing.price       
+            listing.update(price: @new_price)
           end
         end
-        redirect_to listings_path
+        return @listings
       else
         @listings = Listing.all
+      
       end
     end
   end

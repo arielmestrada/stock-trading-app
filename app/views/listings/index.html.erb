@@ -11,7 +11,9 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search by Stock Name" aria-label="Search">
+
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>
@@ -26,11 +28,11 @@
 
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+        <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -42,6 +44,12 @@
             <%= link_to listings_path, class: "nav-link" do%>
               <span data-feather="file"></span>
               Listings
+             <%end%>
+          </li>
+           <li class="nav-item">
+            <%= link_to transactions_path, class: "nav-link" do%>
+              <span data-feather="file"></span>
+              Transaction History
              <%end%>
           </li>
           <li class="nav-item">
@@ -79,13 +87,8 @@
               Transactions
             <%end%>
           </li>
-      
         </ul>
-
         <% end %>
-
-
-
       </div>
     </nav>
 
@@ -96,30 +99,35 @@
       </div>
 
 
-<p style="color: green"><%= notice %></p>
+ <table class="table table-striped table-sm" id='myTable'>
+ 
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Stock Name</th>
+              <th scope="col">Current Price</th>
+              <th scope="col">Previous Close</th>
+              <th scope="col">Value</th>
+              <th scope="col">Earning Ratio</th>
+              <th scope="col"></th>
+            </tr>
+   
+
+          <%  @listings.each do |listing| %>
+   
+            <tr>
+              <td><img src='<%= listing.logo %>' width='50px'></td>
+              <td><%=  listing.name %></td>
+              <td><%= number_to_currency listing.price %></td>
+              <td><%= number_to_currency listing.previous_close %></td>
+              <td><%= number_to_human listing.market_cap%></td>
+              <td><%= number_to_percentage listing.pe_ratio, precision:2 %></td>
+              <td><%= link_to 'Buy', buy_stock_path(listing.id), class:'btn btn-primary bg-primary' %></td>
+            </tr>
+          <% end %>
 
 
-
-<div id="listings">
-  <% @listings.each do |listing| %>
-    <%= render listing %>
-    <p>
-      <%= link_to "Show this listing", listing %>
-    </p>
-  <% end %>
-</div>
-<% if can? :manage, Listing %>
-  <%= link_to "New listing", new_listing_path %>
-<% end %>
-    </main>
-  </div>
-  
-</div>
-
-
-
-
-
+        </table>
+</main>
 
 
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
