@@ -26,11 +26,11 @@
 
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+         <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>

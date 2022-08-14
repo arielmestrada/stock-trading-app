@@ -22,11 +22,11 @@
 
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+       <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -53,7 +53,9 @@
 
         <% if current_user.role == 'admin' %>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <%= link_to root_path do %>
           <span>Admin</span>
+          <% end %>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
@@ -103,7 +105,7 @@
       <div class="card-body">
         <img src='<%= listing.logo %>' width='50px' class='mb-2'>
         <h2 class="card-title"><%= listing.name %></h2>
-        <p class="card-text m-0">Value: <span class='bg-success text-white px-2 py-1'><%= '$'+ number_to_human(listing.market_cap) %></span></p>
+        <p class="card-text m-0">Value: <span class='bg-success text-white px-2 py-1 rounded fw-bold'><%= '$'+ number_to_human(listing.market_cap) %></span></p>
         <p class="card-text m-0">Previous Close: <span><%= number_to_currency(listing.previous_close) %></span></p>
         <p class="card-text ">Price: <span><%= '$'+ number_to_human(listing.price) %></span></p>
 

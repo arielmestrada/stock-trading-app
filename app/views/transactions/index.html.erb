@@ -47,7 +47,9 @@
 
         <% if current_user.role == 'admin' %>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <%= link_to root_path do %>
           <span>Admin</span>
+          <% end %>
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
@@ -88,7 +90,7 @@
 
 
       <div class="table-responsive ">
-        <table class="table table-striped table-sm ">
+        <table class="table table-striped table-sm " id='myTable'>
  
             <tr>
               <th scope="col">Ref</th>
@@ -110,30 +112,15 @@
               <td><%= trans.transaction_type %></td>
               <td><%= trans.created_at%></td>
               <td><%= trans.quantity %></td>
-              <td>$ <%= trans.price %></td>
+              <td><%= number_to_currency trans.price %></td>
             </tr>
           <% end %>
            <% else %>
            <h2>No transactions <h2>
-             <% end %>
+          <% end %>
 
         </table>
-
-
-
-<div>
-    <% @transactions.each do |transaction| %>
-
-        <%= transaction.transaction_type.capitalize %><br/>
-        <%= transaction.name %><br/>
-        <%= transaction.ticker %><br/>
-        <%= transaction.quantity %><br/>
-        <%= transaction.price %><br/><br/>
-
-    <% end %>
-</div>
-
-    </main>
+   </main>
   </div>
   
 </div>

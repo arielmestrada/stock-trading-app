@@ -28,7 +28,7 @@
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <% link_to root_path, class:'nav-link' do %>
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
             <% end %>

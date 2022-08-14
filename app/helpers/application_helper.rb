@@ -41,8 +41,9 @@ module ApplicationHelper
         Listing.all.sort{ |a,b| b.market_cap <=> a.market_cap }[0..2]
     end
 
-
-
+    def email_encrypt(e)
+    e.split('@')[0].split('').each_with_index.map{|val,i| [0,1,2].include?(i) ? val : '*'}.join + e.split('@')[1]
+    end
 
 
 end

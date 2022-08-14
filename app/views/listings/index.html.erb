@@ -26,11 +26,11 @@
 
       <% if current_user.role == 'trader'%>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">
+        <li class="nav-item">
+            <%= link_to root_path, class:'nav-link' do %>
               <span data-feather="home"></span>
               Dashboard
-            </a>
+            <% end %>
           </li>
           <li class="nav-item">
             <%= link_to portfolio_path, class: "nav-link" do%>
@@ -79,13 +79,8 @@
               Transactions
             <%end%>
           </li>
-      
         </ul>
-
         <% end %>
-
-
-
       </div>
     </nav>
 
@@ -105,6 +100,7 @@
               <th scope="col">Previous Close</th>
               <th scope="col">Value</th>
               <th scope="col">Earning Ratio</th>
+              <th scope="col"></th>
             </tr>
    
 
@@ -117,6 +113,7 @@
               <td><%= number_to_currency listing.previous_close %></td>
               <td><%= number_to_human listing.market_cap%></td>
               <td><%= number_to_percentage listing.pe_ratio, precision:2 %></td>
+              <td><%= link_to 'Buy', listing_path(listing.id), class:'btn btn-primary bg-primary' %></td>
             </tr>
           <% end %>
 
