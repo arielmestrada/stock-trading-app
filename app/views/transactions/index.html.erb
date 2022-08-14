@@ -7,7 +7,11 @@
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search by Trader" aria-label="Search">
+    <% if current_user.role == 'admin'%>
+  <input id='myInput' onkeyup="myFunction()" class="form-control form-control-dark w-100" type="text" placeholder="Search All Traders by Name" aria-label="Search">
+  <%else%>
+   <div id='myInput'class="bg-dark w-100" type="text" placeholder="" ></div>
+    <%end%>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
        <%= button_to "Log out", destroy_user_session_path, :method => :delete, class:'nav-link px-3 btn' %>

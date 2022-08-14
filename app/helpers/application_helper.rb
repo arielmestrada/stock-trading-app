@@ -46,4 +46,10 @@ module ApplicationHelper
     end
 
 
+    def last_trade_stock(ticker)
+        z = current_user.transactions.where(ticker:ticker).sort{ |a,b| b.created_at <=> a.created_at }.first.updated_at
+        z.strftime("%m/%d/%Y")
+ 
+    end
+
 end
