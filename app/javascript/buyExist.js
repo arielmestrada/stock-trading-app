@@ -14,6 +14,12 @@
           })
           document.getElementById('front-price').textContent = money.format(price)
           document.getElementById('quantity').value = qty
+          if(new URLSearchParams(window.location.search).get('notice') == 'Insufficient Balance') {
+            document.getElementById('fundsError').classList.remove("d-flex");
+            document.getElementById('fundsError').classList.add("d-none");
+        
+          }
+
       }) 
    })
 
@@ -31,6 +37,12 @@
             })
             document.getElementById('front-price').textContent = money.format(price)
             document.getElementById('quantity').value = qty
+            if(new URLSearchParams(window.location.search).get('notice') == 'Insufficient Balance') {
+              document.getElementById('fundsError').classList.remove("d-flex");
+              document.getElementById('fundsError').classList.add("d-none");
+          
+            }
+  
    })
 
   
@@ -40,4 +52,15 @@
     $('#buyCommit').trigger('click')
    })
 
+
+
+
+
+
+
+   if(new URLSearchParams(window.location.search).get('notice') == 'Insufficient Balance') {
+    document.getElementById('fundsError').classList.remove("d-none");
+    document.getElementById('fundsError').classList.add("d-flex");
+
+  }
 

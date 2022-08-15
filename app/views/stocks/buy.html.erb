@@ -99,6 +99,9 @@
     
       </div>
 
+      <div id='fundsError' class='d-none justify-content-center align-item-center'>
+     <span class='text-danger fw-bold '>Insufficient Funds!</span>
+     </div>
 
 <section class="h-100 gradient-custom">
   <div class="container py-5">
@@ -106,7 +109,8 @@
       <div class="col-md-8">
         <div class="card mb-4">
           <div class="card-header py-3">
-            <h5 class="mb-0">You are <span class='btn btn-primary'> Buying </span></h5>
+            <h5 class="mb-0">You are <span class='btn btn-primary'> Buying </span> </h5>
+            
           </div>
           <div class="card-body">
             <!-- Single item -->
@@ -137,7 +141,7 @@
               <div class="col-lg-4 col-md-6 mb-4 mb-lg-0 d-flex flex-column justify-content-center">
                 <!-- Quantity -->
 
-
+       
                 <div class="d-flex mb-4" style="max-width: 300px">
                   <button class="btn btn-primary px-3 me-2 qty-btn"
                     onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
