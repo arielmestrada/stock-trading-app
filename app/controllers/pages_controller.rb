@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
     before_action :authenticate_user!
+    before_action :create_admin
     # load_and_authorize_resource    
 
     def index
@@ -61,6 +62,21 @@ class PagesController < ApplicationController
         @balance_total = (@balance + params[:balance].to_f)
         User.find(current_user.id).update(balance: @balance_total)
         redirect_to root_path
+    end
+
+    def create_admin
+        if User.all.empty?
+            @user = User.new
+            @user.email = 'estrada.ariel.m@gmail.com'
+            @user.password = '123456'
+            @user.password_confirmation = '123456'      
+            @user.first_name = 'Ariel'      
+            @user.last_name = 'Estrada'  
+            @user.admin_created = true  
+            @user.skip_confirmation!
+            @user.save
+            redirect_to root_path
+        end
     end
 
 end

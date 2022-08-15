@@ -101,7 +101,7 @@
             <div class='col-lg-6'>   
             <div class='d-flex justfy-content-between gap-5'><h2>Account Information</h2> <%= button_to "Delete", admin_destroy_user_path(id:@user.id), method: :delete,class:'btn btn-danger',form: {data: {turbo_confirm: "This Action will delete all data related to user - #{@user.last_name + ', ' + @user.first_name }"}}%></div>
                <p> Email: <span></span><%= email_encrypt @user.email %></span></p>
-               <p> Full Name <%= @user.last_name  + ', ' + @user.last_name %></p>
+               <p> Full Name <%= @user.last_name  + ', ' + @user.first_name %></p>
                 <p> Password: ********* </p>
             <%= link_to 'Edit', user_edit_path(id:@user.id), class:'btn btn-primary'%>
             </div>
