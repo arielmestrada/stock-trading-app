@@ -1,5 +1,6 @@
 class Stock < ApplicationRecord
-    belongs_to :listing     
+    validates :quantity, presence: true
+    belongs_to :listing
     after_save :delete_zero_quantity
     
     def delete_zero_quantity

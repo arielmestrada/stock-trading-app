@@ -20,17 +20,17 @@ class User < ApplicationRecord
 
   def send_confirm_to_admins
     @user = self
-    UserMailer.admin_confirmation(@user).deliver_later
+    UserMailer.admin_confirmation(@user).deliver_now
   end
 
   def send_affirm_to_user
     @user = self
-    UserMailer.user_affirmation(@user).deliver_later
+    UserMailer.user_affirmation(@user).deliver_now
   end
 
   def send_confirm_to_user
     @user = self
-    UserMailer.user_confirmation(@user).deliver_later
+    UserMailer.user_confirmation(@user).deliver_now
   end
 
 end

@@ -53,7 +53,7 @@ class StocksController < ApplicationController
       @transaction.save!
       redirect_to portfolio_path
     else
-      redirect_to buy_stock_path(@listing.id, custom_error: 'Insufficient Balance')
+      redirect_to buy_stock_path(@listing.id, notice: 'Insufficient Balance')
     end
 
     # @stock = @listing.stocks.build(stock_params)
@@ -86,7 +86,7 @@ class StocksController < ApplicationController
 
     if params[:transaction_type] == 'buy'
       if @current_balance < @total_price
-        redirect_to buy_stock_path(@listing.id, custom_error: 'Insufficient Balance')
+        redirect_to buy_stock_path(@listing.id, notice: 'Insufficient Balance')
       else
         @total_quantity = (@stock.quantity + @quantity)    
         @stock.update(quantity: @total_quantity)
@@ -97,7 +97,7 @@ class StocksController < ApplicationController
       end
     else
       if @current_quantity < @quantity
-        redirect_to sell_stock_path(@listing.id, custom_error: 'Insufficient quantity')
+        redirect_to sell_stock_path(@listing.id, notice: 'Insufficient quantity')
       else
         @new_balance = @current_balance + @total_price
         @total_quantity = (@stock.quantity - @quantity)
