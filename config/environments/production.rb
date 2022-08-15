@@ -1,7 +1,6 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.action_mailer.default_options = {from: 'no-reply@example.com'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
@@ -10,8 +9,8 @@ Rails.application.configure do
   address:              'smtp.gmail.com',
   port:                 587,
   domain:               'infinite-ravine-11727.herokuapp.com',
-  user_name:            Rails.application.credentials.dig(:google_smtp, :email),
-  password:             Rails.application.credentials.dig(:google_smtp, :password),
+  user_name:            'estrada.ariel.m@gmail.com',
+  password:             'stxuhujuefjrpbng',
   authentication:       'plain',
   enable_starttls_auto: true  }
   # Settings specified here will take precedence over those in config/application.rb.
